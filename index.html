@@ -15,7 +15,6 @@
   <meta property="og:image" content="" />
   <meta property="og:url" content="" />
 
-
   <!-- Google Fonts: Cormorant Garamond (serif, headings) + Inter (sans, body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,6 +26,7 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" />
   <link rel="stylesheet" href="main.css" />
 
@@ -35,6 +35,7 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.21/leaflet-maplibre-gl.js"></script>
 </head>
@@ -86,38 +87,38 @@
           <div class="accordion-body">
             <div class="chip-list">
 
-              <div class="chip">
+              <div class="chip" data-category="Chiese">
                 <span class="chip-dot" style="background:var(--col-church);"></span>
                 <span class="chip-label">Chiese</span>
               </div>
 
-              <div class="chip">
+              <div class="chip" data-category="Basiliche e cattedrali">
                 <span class="chip-dot" style="background: var(--col-cathed);"></span>
                 <span class="chip-label">Basiliche e cattedrali</span>
               </div>
 
-              <div class="chip">
+              <div class="chip" data-category="Conventi e monasteri">
                 <span class="chip-dot" style="background: var(--col-monast);"></span>
                 <span class="chip-label">Conventi e monasteri</span>
               </div>
 
-              <div class="chip">
+              <div class="chip" data-category="Musei">
                 <span class="chip-dot" style="background: var(--col-museum);"></span>
                 <span class="chip-label">Musei</span>
               </div>
 
-              <div class="chip">
+              <div class="chip" data-category="Oratori">
                 <span class="chip-dot" style="background:var(--col-orator);"></span>
                 <span class="chip-label">Oratori</span>
               </div>
 
-              <div class="chip">
+              <div class="chip" data-category="Altri luoghi di culto">
                 <span class="chip-dot" style="background: var(--col-others);"></span>
                 <span class="chip-label">Altri luoghi di culto</span>
               </div>
 
               <!-- Chip with symbol instead of plain colour -->
-              <div class="chip">
+              <div class="chip" data-category="Non più esistente">
                 <span class="chip-dot chip-dot--symbol" style="background:#333333;"><i class="bi bi-asterisk"></i></span>
                 <span class="chip-label">Non più esistente</span>
               </div>
