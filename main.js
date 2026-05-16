@@ -338,7 +338,7 @@ function initMarkers() {
         'Città Metropolitana di Bologna': place.Link_cittàmetr_BO
       }
 
-      if (!Object.values(linksAddtional).some(isLinkBlank)) {
+      if (Object.values(linksAddtional).every(isLinkBlank)) {
         document.getElementById('additional-links').style.display = 'none';
       } else {
         document.getElementById('link-list').innerHTML = '';
