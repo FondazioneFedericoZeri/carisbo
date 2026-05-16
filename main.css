@@ -26,6 +26,8 @@
   --text-primary: #1a1a18;
   --text-secondary: #555;
   --text-muted: #888;
+  --text-danger: #dc3545;
+  --text-danger-muted: #c0747c;
   --border: #e0ddd5;
   --surface: rgba(255, 255, 255, 0.92);
   --bg-chip: #f0f5fb;
@@ -182,19 +184,33 @@ body {
 }
 
 /* ── Floating action buttons (top-left) ── */
-#ui-fab {
+.fab {
   position: fixed;
-  top: 24px;
-  left: 24px;
   z-index: 1000;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
 }
 
-#ui-fab.visible {
-  display: flex;
+.fab.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#ui-fab-top {
+  top: 24px;
+  left: 24px;
+  transform: translateY(-6px);
+}
+
+#ui-fab-top.visible {
+  transform: translateY(0);
 }
 
 /* Shared surface style for pill */
@@ -241,9 +257,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* ── Legend FAB: cerchio → card espandibile su hover ── */
-#legend-fab {
-  width: 44px;
+.fab-box {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
@@ -252,6 +266,11 @@ body {
   border-radius: 22px;
   overflow: hidden;
   color: var(--text-primary);
+}
+
+/* ── Legend FAB: cerchio → card espandibile su hover ── */
+#legend-fab {
+  width: 44px;
   /* chiusura: aspetta che il contenuto si nasconda prima di restringere */
   transition: width 0.22s ease 0.15s, border-radius 0.22s ease 0.15s;
 }
@@ -372,6 +391,22 @@ body {
   line-height: 1;
 }
 
+/* ── Active marker ── */
+/* circleMarker (SVG path) */
+path.active-marker {
+  stroke: #1a1a18;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.45));
+}
+
+/* divIcon marker (non più esistente) */
+.active-marker .place-marker--ex {
+  border-color: #1a1a18;
+  border-width: 2.5px;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.45));
+  transform: scale(1.25);
+}
+
 /* ── Marker cluster icon ── */
 .cluster-icon {
   width: 16px;
@@ -391,4 +426,131 @@ body {
 
 .chip[data-category]:not(.chip--active) {
   opacity: 0.32;
+}
+
+/* ── Floating popup panel (bottom-left) ── */
+
+#ui-fab-popup {
+  bottom: 24px;
+  left: 24px;
+  transform: translateY(6px);
+}
+
+#ui-fab-popup.visible {
+  transform: translateY(0);
+}
+
+#popup-content {
+  width: 500px;
+  /*height: 500px;*/
+  border-radius: 16px;
+}
+
+#popup-body {
+  width: 100%;
+  height: 100%;
+  border: none;  
+}
+
+#popup-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+#popup-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 2px;
+  transition: color 0.15s;
+}
+
+#popup-close:hover {
+  color: var(--text-primary);
+}
+
+#non-existing-place-text {
+  color: var(--text-danger-muted);
+  font-style: italic;
+}
+
+#card-img-container {
+  display: flex;
+  justify-content: center;
+  margin: 5% 0;
+}
+
+#card-img {
+  max-height: 250px;
+  width: auto;
+  object-fit: cover;
+}
+
+.btn-catalog-container a {
+  width: 100%;
+}
+
+/* ── Bootstrap primary → Zeri blue ── */
+:root {
+  --zeri-btn:           #2e6da4;
+  --zeri-btn-dark:      #1d5a8e;
+  --zeri-btn-sec:       #5f6b7a;
+  --zeri-btn-sec-dark:  #445060;
+}
+
+.btn-primary {
+  --bs-btn-bg:                  var(--zeri-btn);
+  --bs-btn-border-color:        var(--zeri-btn);
+  --bs-btn-hover-bg:            var(--zeri-btn-dark);
+  --bs-btn-hover-border-color:  var(--zeri-btn-dark);
+  --bs-btn-active-bg:           var(--zeri-btn-dark);
+  --bs-btn-active-border-color: var(--zeri-btn-dark);
+  --bs-btn-disabled-bg:         var(--zeri-btn);
+  --bs-btn-disabled-border-color:var(--zeri-btn);
+  --bs-btn-color:               #fff;
+}
+
+.btn-outline-primary {
+  --bs-btn-color:               var(--zeri-btn);
+  --bs-btn-border-color:        var(--zeri-btn);
+  --bs-btn-hover-color:         #fff;
+  --bs-btn-hover-bg:            var(--zeri-btn);
+  --bs-btn-hover-border-color:  var(--zeri-btn);
+  --bs-btn-active-color:        #fff;
+  --bs-btn-active-bg:           var(--zeri-btn-dark);
+  --bs-btn-active-border-color: var(--zeri-btn-dark);
+  --bs-btn-disabled-color:      var(--zeri-btn);
+  --bs-btn-disabled-border-color:var(--zeri-btn);
+}
+
+.btn-secondary {
+  --bs-btn-bg:                  var(--zeri-btn-sec);
+  --bs-btn-border-color:        var(--zeri-btn-sec);
+  --bs-btn-hover-bg:            var(--zeri-btn-sec-dark);
+  --bs-btn-hover-border-color:  var(--zeri-btn-sec-dark);
+  --bs-btn-active-bg:           var(--zeri-btn-sec-dark);
+  --bs-btn-active-border-color: var(--zeri-btn-sec-dark);
+  --bs-btn-disabled-bg:         var(--zeri-btn-sec);
+  --bs-btn-disabled-border-color:var(--zeri-btn-sec);
+  --bs-btn-color:               #fff;
+}
+
+.btn-outline-secondary {
+  --bs-btn-color:               var(--zeri-btn-sec);
+  --bs-btn-border-color:        var(--zeri-btn-sec);
+  --bs-btn-hover-color:         #fff;
+  --bs-btn-hover-bg:            var(--zeri-btn-sec);
+  --bs-btn-hover-border-color:  var(--zeri-btn-sec);
+  --bs-btn-active-color:        #fff;
+  --bs-btn-active-bg:           var(--zeri-btn-sec-dark);
+  --bs-btn-active-border-color: var(--zeri-btn-sec-dark);
+  --bs-btn-disabled-color:      var(--zeri-btn-sec);
+  --bs-btn-disabled-border-color:var(--zeri-btn-sec);
 }

@@ -11,7 +11,8 @@
 
   <!-- OG Protocol -->
   <meta property="og:title" content="Itinerari nelle chiese di Bologna" />
-  <meta property="og:description" content="Un viaggio nel patrimonio ecclesiastico bolognese attraverso le fotografie di Mario Berardi." />
+  <meta property="og:description"
+    content="Un viaggio nel patrimonio ecclesiastico bolognese attraverso le fotografie di Mario Berardi." />
   <meta property="og:image" content="" />
   <meta property="og:url" content="" />
 
@@ -66,18 +67,17 @@
   <div id="map"></div>
 
   <!-- Floating UI controls (top-left) -->
-  <div id="ui-fab">
+  <div id="ui-fab-top" class="fab">
 
     <!-- 1. Info/title pill: click → offcanvas -->
-    <button class="fab-pill" id="btn-info-fab"
-      data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info"
+    <button class="fab-pill" id="btn-info-fab" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info"
       title="Informazioni sul progetto">
       <i class="bi bi-info-lg"></i>
       <span class="fab-pill-title">Itinerari nelle chiese di Bologna</span>
     </button>
 
     <!-- 2. Legend FAB: circle → espande su hover con titolo e chips -->
-    <div id="legend-fab">
+    <div id="legend-fab" class="fab-box">
       <div id="legend-fab-icon">
         <i class="bi bi-layers"></i>
       </div>
@@ -124,13 +124,65 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Floating UI Popup (bottom-left) -->
+  <div id="ui-fab-popup" class="fab">
+
+    <div id="popup-content" class="fab-box">
+      <div class="card" id="popup-body" style="width: 100%;">
+        <div class="card-body">
+
+          <div id="popup-header">
+            <div id="popup-header-text">
+              <h4 class="card-title" id="container-name">Basilica di S. Domenico</h4>
+              <p class="card-subtitle" id="non-existing-place-text">Sito non più esistente</p>
+            </div>
+            <button type="button" class="btn-close" aria-label="Close" onclick="closePopup()"></button>
+          </div>
+      
+          <div id="card-img-container">
+              <img src="assets/images/thumb/san-domenico.jpg" id="card-img">
+          </div>
+
+          <div id="catalogue-links">
+            
+            <p class="legend-title">Le opere nel contesto</p>
+
+            <p class="card-text">Esplora il sito e le opere qui documentate nel catalogo della Fondazione Zeri</p>
+            
+            <div class="row">
+              <div class="col-6 btn-catalog-container" id="btn-ldcn-container">
+                <a href="#" class="btn btn-primary" id="btn-ldcn">Collocazione attuale</a>
+              </div>
+              <div class="col-6 btn-catalog-container" id="btn-prcd-container">
+                <a href="#" class="btn btn-secondary" id="btn-prcd">Collocazione precedente</a>
+              </div>
+              <div class="col-12 btn-catalog-container mt-2" id="btn-site-container">
+                <a href="#" class="btn btn-outline-primary" id="btn-site">Il sito - Basilica di S. Domenico</a>
+              </div>
+            </div>
+          </div>
+
+          <div id="additional-links">
+            <p class="legend-title mt-4">Per saperne di più</p>
+
+            <ul id="link-list">
+              <li><a href="https://catalogo.fondazionezeri.unibo.it/scheda.livello.jsp?decorator=layout_resp&apply=true&locale=it&id=4&tipo_scheda=fondo" target="_blank" rel="noopener">L'Archivio Mario Berardi nella Fototeca Zeri</a>
+            </ul>
+          </div>
+          
+        </div>
+      </div>
+    </div>
 
   </div>
 
   <!-- Offcanvas info -->
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-info" aria-labelledby="offcanvas-info-label">
     <div class="offcanvas-header">
-      <h4 class="offcanvas-title" id="offcanvas-info-label">Il patrimonio ecclesiastico di Bologna nelle fotografie di Mario Berardi</h4>
+      <h4 class="offcanvas-title" id="offcanvas-info-label">Il patrimonio ecclesiastico di Bologna nelle fotografie di
+        Mario Berardi</h4>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Chiudi"></button>
     </div>
     <div class="offcanvas-body">
@@ -138,15 +190,26 @@
       <section class="info-section">
         <h5>Mario Berardi e la documentazione del patrimonio bolognese</h5>
         <p>
-          L'Archivio Mario Berardi  è composto da 5.379 fototipi, per la maggior parte diacolor (3253), negativi bn (1.604) e positivi alla gelatina ai sali d’argento (297). A questi si aggiungono anche negativi (88) e positivi (37) a colori. In alcune buste, insieme ai fototipi, sono contenuti cd-rom con fotografie in formato digitale, per un totale di oltre 1000 files (jpg e tiff).
+          L'Archivio Mario Berardi è composto da 5.379 fototipi, per la maggior parte diacolor (3253), negativi bn
+          (1.604) e positivi alla gelatina ai sali d’argento (297). A questi si aggiungono anche negativi (88) e
+          positivi (37) a colori. In alcune buste, insieme ai fototipi, sono contenuti cd-rom con fotografie in formato
+          digitale, per un totale di oltre 1000 files (jpg e tiff).
         </p>
 
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
         </p>
 
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
         </p>
       </section>
 
@@ -155,7 +218,8 @@
         <p>
         <ul>
           <li>L'Archivio Mario Berardi nella Fototeca Zeri. <a
-              href="https://catalogo.fondazionezeri.unibo.it/scheda.livello.jsp?decorator=layout_resp&apply=true&locale=it&id=4&tipo_scheda=fondo">Link</a>.</li>
+              href="https://catalogo.fondazionezeri.unibo.it/scheda.livello.jsp?decorator=layout_resp&apply=true&locale=it&id=4&tipo_scheda=fondo">Link</a>.
+          </li>
           <li>. . .</li>
         </ul>
         </p>
@@ -163,9 +227,11 @@
 
       <section class="info-section">
         <h5>Crediti</h5>
-        <p>I dati relativi alla campagna fotografica provengono dal <a href="https://catalogo.fondazionezeri.unibo.it/">database della Fondazione Zeri</a>.</p>
+        <p>I dati relativi alla campagna fotografica provengono dal <a
+            href="https://catalogo.fondazionezeri.unibo.it/">database della Fondazione Zeri</a>.</p>
         <p>Il progetto è stato realizzato dalla <a href="https://fondazionezeri.unibo.it/it">Fondazione Federico
-            Zeri</a> - Università di Bologna e finanziato dalla <a href="https://fondazionecarisbo.it/">Fondazione Cassa di Risparmio di Bologna</a>. Il codice, rilasciato con licenza CC-BY 4.0, è reperibile nell'apposita <a
+            Zeri</a> - Università di Bologna e finanziato dalla <a href="https://fondazionecarisbo.it/">Fondazione Cassa
+            di Risparmio di Bologna</a>. Il codice, rilasciato con licenza CC-BY 4.0, è reperibile nell'apposita <a
             href="https://github.com/FondazioneFedericoZeri/carisbo">repository</a> su GitHub.</p>
       </section>
 

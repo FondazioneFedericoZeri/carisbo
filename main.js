@@ -90,6 +90,20 @@ function primaryColor(place) {
   return CATEGORY_COLORS[primaryCat(place)] || '#a5a5a5';
 }
 
+// ── Active marker ─────────────────────────────────────────────────
+function getMarkerEl(marker) {
+  return marker._path || marker._icon || null;
+}
+
+function setActiveMarker(marker) {
+  allMarkers.forEach(function (item) {
+    const el = getMarkerEl(item.marker);
+    if (el) el.classList.remove('active-marker');
+  });
+  const el = getMarkerEl(marker);
+  if (el) el.classList.add('active-marker');
+}
+
 // ── Filter helpers ────────────────────────────────────────────────
 function applyFilter() {
   clusterGroup.clearLayers();
@@ -190,7 +204,7 @@ function initMarkers() {
     maxClusterRadius: 1,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
-    zoomToBoundsOnClick: false,
+    zoomToBoundsOnClick: true,
     iconCreateFunction: function (_cluster) {
       return L.divIcon({
         html: '<div class="cluster-icon"></div>',
@@ -228,9 +242,120 @@ function initMarkers() {
     // Embed the ID on the marker — will be used by the detail panel
     marker.placeId = place.ID;
 
-    // TODO: replace console.log with detail-panel open logic
-    marker.on('click', function () {
-      console.log('placeId:', this.placeId);
+    // Event on marker click: open popup (with costum content) and set active marker styling
+    marker.on('click', function (e) {
+      L.DomEvent.stopPropagation(e);
+      const place = placesData.find(function (p) { return p.ID === this.placeId; }, this);
+      console.log('place:', place.Contenitore);
+      setActiveMarker(this);
+
+      // ====== popup costumisation =======
+
+      // Title
+      document.getElementById('container-name').textContent = place.Contenitore;
+
+      // "Non più esistente" text visibility
+      if (isNonEsistente(place)) {
+        document.getElementById('non-existing-place-text').style.display = 'flex';
+      } else {
+        document.getElementById('non-existing-place-text').style.display = 'none';
+      }
+
+      // Image
+      if (place.Path) {
+        document.getElementById('card-img-container').style.display = 'flex';
+        document.querySelector('#card-img').src = `assets/images/thumb/${place.Path}`;
+      } else {
+        document.getElementById('card-img-container').style.display = 'none';
+      }
+
+      // Main buttons
+      let linksCatalog = [(place.LDCN !== ""), (place.PRCD !== ""), (place.Scheda_Chiesa !== "")];
+
+      if (linksCatalog.includes(true)) {
+
+        let btn_count = 0;
+        
+        if (place.LDCN) {
+          document.getElementById('btn-ldcn-container').style.display = 'inline-flex';
+          document.getElementById('btn-ldcn').href = place.LDCN;
+          btn_count++;
+        } else {
+          document.getElementById('btn-ldcn-container').style.display = 'none';
+        }
+
+        if (place.PRCD) {
+          document.getElementById('btn-prcd-container').style.display = 'inline-flex';
+          document.getElementById('btn-prcd').href = place.PRCD;
+          btn_count++;
+        } else {
+          document.getElementById('btn-prcd-container').style.display = 'none';
+        }
+
+        if (place.Scheda_Chiesa) {
+
+          // Resize the final button
+          const btnSiteContainer = document.getElementById('btn-site-container');
+          if (btn_count == 1 && btnSiteContainer.classList.contains("col-12")) {
+            btnSiteContainer.classList.remove('col-12');
+            btnSiteContainer.classList.add('col-6');
+          } else if (btn_count == 2 && btnSiteContainer.classList.contains("col-6")) {
+            btnSiteContainer.classList.remove('col-6');
+            btnSiteContainer.classList.add('col-12');
+          }
+
+          document.getElementById('btn-site').style.display = 'inline-flex';
+          document.getElementById('btn-site').href = place.Scheda_Chiesa;
+
+        } else {
+          document.getElementById('btn-site').style.display = 'none';
+        }
+
+        document.getElementById('catalogue-links').style.display = 'block';
+
+      } else {
+
+        document.getElementById('catalogue-links').style.display = 'none';
+
+      }
+
+      // Additional resources
+      const isLinkBlank = (link) => link === "" || link === undefined;
+
+      let linksAddtional = {
+        'Storia e Memoria di Bologna': place.Link_StorieMemorie,
+        'Origine di Bologna': place.Link_OrigineBologna,
+        'Biblioteca Salaborsa': place.Link_BibSalaBorsa,
+        'Wikipedia': place.Link_Wiki,
+        'Genus Bononiae': place.Link_GenusBononiae,
+        'Centro Studi \'Gina Fasoli\'': place.Link_CentroFasoli,
+        'Biblioteca Comunale dell\'Archiginnasio': place.Link_Archiginnasio,
+        'Fondazione Cassa di Risparmio in Bologna': place.Link_Carisbo,
+        'Beni Ecclesiastici in Web (BeWeb)': place.Link_Beweb,
+        'Catalogo generale dei Beni Culturali': place.Link_CatBBCC,
+        'Le chiese delle diocesi italiane': place.Link_Chiese_ita,
+        'ASP Città di Bologna': place.Link_ASP,
+        'Città Metropolitana di Bologna': place.Link_cittàmetr_BO
+      }
+
+      if (!Object.values(linksAddtional).some(isLinkBlank)) {
+        document.getElementById('additional-links').style.display = 'none';
+      } else {
+        document.getElementById('link-list').innerHTML = '';
+
+        for (const [label, url] of Object.entries(linksAddtional)) {
+          if (!isLinkBlank(url)) {
+            document.getElementById('link-list').innerHTML += `<li><a href="${url}" target="_blank">${label} <i class="bi bi-box-arrow-up-right"></i></a></li>`;
+          }
+        }
+
+        document.getElementById('additional-links').style.display = 'block';
+      }
+
+      // ==================================
+
+      document.getElementById('ui-fab-popup').classList.add('visible');
+      document.getElementById('ui-fab-top').classList.remove('visible');
     });
 
     allMarkers.push({ marker: marker, cat: isNonEsistente(place) ? primaryCat(place) : place.Categoria, nonEsistente: isNonEsistente(place) });
@@ -241,10 +366,16 @@ function initMarkers() {
   initChipFilters();
 }
 
+function closePopup() {
+  document.getElementById('ui-fab-popup').classList.remove('visible');
+  document.getElementById('ui-fab-top').classList.add('visible');
+  setActiveMarker({});
+}
+
 // ── Hero button ───────────────────────────────────────────────────
 document.getElementById('btn').addEventListener('click', function () {
   const hero = document.getElementById('hero');
-  const fab = document.getElementById('ui-fab');
+  const fab = document.getElementById('ui-fab-top');
 
   hero.classList.add('up');
   fab.classList.add('visible');
