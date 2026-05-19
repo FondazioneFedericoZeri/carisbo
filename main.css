@@ -73,20 +73,21 @@ body {
 
   /* Version 1: Only black panel */
   
+  /*
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  
+  */
   
   /* Version 2: Photograph */
   /* https://commons.wikimedia.org/wiki/Category:San_Petronio_(Bologna)_-_Views_from_a_distance#/media/File:Bologna-SanPetronioPiazzaMaggiore1.jpg */
 
-  /* 
+   
   background:
     linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.88) 100%),
-    url("assets/images/hero-s-petronio.jpg") center/cover no-repeat;
+    url("assets/images/hero-sstefano.jpg") center/cover no-repeat;
   backdrop-filter: blur(12px);
-  */
+  
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -267,14 +268,14 @@ body {
 }
 
 .fab-pill--cta {
-  width: calc(320px + 10px + 44px); /*Sum of below fabs + gap*/
+  width: calc(300px + 10px + 44px); /*Sum of below fabs + gap*/
   height: 52px;
   padding: 0 16px 0 22px;
   font-size: var(--text-lg);
 }
 
 .fab-pill--cta .fab-pill-title {
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 500;
 }
 
@@ -291,7 +292,7 @@ body {
 
 /* ── Legend FAB: always visible ── */
 #legend-fab {
-  width: 320px;
+  width: 300px;
   border-radius: 16px;
 }
 
